@@ -1,7 +1,7 @@
 local M = {}
 
 local find_rust_bin = function()
-	return "/home/msoares/git_tree/perl-lsp-rust/target/debug/perl-nvim-lsp"
+	return "/home/msoares/git_tree/perl-lsp/target/debug/perl-nvim-lsp"
 end
 
 M.start = function()
