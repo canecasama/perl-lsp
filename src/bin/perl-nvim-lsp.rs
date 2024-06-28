@@ -4,6 +4,7 @@ use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
 
+pub mod call_parse_perl;
 pub mod snippets;
 
 #[derive(Debug)]
@@ -86,10 +87,12 @@ impl LanguageServer for Backend {
         Ok(None)
     }
 
-    async fn did_open(&self, _: DidOpenTextDocumentParams) {
+    async fn did_open(&self, params: DidOpenTextDocumentParams) {
         self.client
             .log_message(MessageType::INFO, "file opened!")
             .await;
+
+        let _parsed_document = call_parse_perl::run_parse_perl(params.text_document.text);
     }
 
     async fn did_change(&self, _: DidChangeTextDocumentParams) {
