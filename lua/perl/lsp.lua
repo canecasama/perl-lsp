@@ -5,7 +5,6 @@ local find_rust_bin = function()
 end
 
 M.start = function()
-	vim.print("LSP START")
 	vim.lsp.start({
 		name = "perl-nvim-lsp",
 		filetypes = { "perl" },
@@ -16,7 +15,6 @@ end
 
 local group = vim.api.nvim_create_augroup("perl-nvim-lsp", {})
 M.setup = function()
-	vim.print("LSP SETUP")
 	vim.api.nvim_clear_autocmds({ group = group })
 	vim.api.nvim_create_autocmd("FileType", {
 		group = group,
