@@ -15,23 +15,23 @@ die "Could not load $perl_code"
 
 # Function to recursively convert a PPI structure into a hash
 sub convert_to_hash {
-    my $node = shift;
-    return unless $node;
+    my $element = shift;
+    return unless $element;
 
     # Ignore comments and whitespace
-    return if $node->isa('PPI::Token::Comment')
-           || $node->isa('PPI::Token::Whitespace');
+    return if $element->isa('PPI::Token::Comment')
+           || $element->isa('PPI::Token::Whitespace');
 
     my %hash = (
-        type     => ref($node),
-        location => [@{$node->location}[0,1]],
+        type     => ref($element),
+        location => [@{$element->location}[0,1]],
     );
 
-    # Check all the child nodes
-    if ($node->isa('PPI::Node')) {
-        $hash{children} = [map {convert_to_hash($_)} $node->children()];
-    } elsif ($node->can('content')) {
-        $hash{content} = $node->content();
+    # Check all the child elements
+    if ($element->isa('PPI::Node')) {
+        $hash{children} = [map {convert_to_hash($_)} $element->children()];
+    } elsif ($element->can('content')) {
+        $hash{content} = $element->content();
     }
 
     return \%hash;
