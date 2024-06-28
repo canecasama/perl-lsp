@@ -89,10 +89,23 @@ impl LanguageServer for Backend {
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
         self.client
-            .log_message(MessageType::INFO, "file opened!")
+            .log_message(MessageType::ERROR, "file opened!")
             .await;
 
-        let _parsed_document = call_parse_perl::run_parse_perl(params.text_document.text);
+        let parsed_document = call_parse_perl::run_parse_perl(params.text_document.text);
+
+        if parsed_document.is_err() {
+            self.client
+                .log_message(MessageType::ERROR, parsed_document.as_ref().unwrap())
+                .await;
+            return;
+        }
+
+        let json_document: serde_json::Value =
+            serde_json::from_str(parsed_document.as_ref().unwrap()).unwrap();
+        self.client
+            .log_message(MessageType::ERROR, &json_document)
+            .await;
     }
 
     async fn did_change(&self, _: DidChangeTextDocumentParams) {

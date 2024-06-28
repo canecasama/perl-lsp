@@ -6,11 +6,11 @@ use PPI;
 use JSON::XS qw(encode_json);
 
 # Get the file name from the command line arguments
-my $filename = shift or die "Usage: $0 <filename>\n";
+my $perl_code = shift or die "Usage: $0 <perl_code>\n";
 
 # Load the document
-my $document = PPI::Document->new($filename);
-die "Could not load $filename"
+my $document = PPI::Document->new(\$perl_code);
+die "Could not load $perl_code"
     unless $document;
 
 # Function to recursively convert a PPI structure into a hash

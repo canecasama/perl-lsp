@@ -1,9 +1,14 @@
 use std::process::Command;
 use std::str;
 
-pub fn run_parse_perl(filename: String) -> Result<String, String> {
+pub fn run_parse_perl(perl_code: String) -> Result<String, String> {
+    let script_path = "/home/msoares/git_tree/perl-lsp/perl/parse_perl.pl";
+
+    let params = vec![perl_code];
+
     let output = Command::new("perl")
-        .arg(format!("../../perl/parse_perl.pl {}", filename))
+        .arg(script_path)
+        .args(params)
         .output()
         .expect("Failed to execute parse_perl.pl");
 
