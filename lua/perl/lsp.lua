@@ -8,6 +8,7 @@ M.start = function()
 	vim.print("LSP START")
 	vim.lsp.start({
 		name = "perl-nvim-lsp",
+		filetypes = { "perl" },
 		cmd = { find_rust_bin() },
 		root_dir = vim.fs.dirname(vim.fs.find({ "composer.json" }, { upward = true })[1]),
 	})
