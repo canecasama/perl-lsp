@@ -3,8 +3,7 @@
 use strict;
 use warnings;
 use PPI;
-use PPI::Dumper;
-use JSON::XS;
+use JSON::XS qw(encode_json);
 
 # Get the file name from the command line arguments
 my $filename = shift or die "Usage: $0 <filename>\n";
@@ -19,26 +18,27 @@ sub convert_to_hash {
     my $node = shift;
     return unless $node;
 
-    if (   $node->isa('PPI::Token::Comment')
-        || $node->isa('PPI::Token::Whitespace')) {
-        return;
-    }
+    # Ignore comments and whitespace
+    return if $node->isa('PPI::Token::Comment')
+           || $node->isa('PPI::Token::Whitespace');
 
-    my %hash;
-    $hash{type} = ref($node);
-    $hash{location} = [@{$node->location}[0,1]];
+    my %hash = (
+        type     => ref($node),
+        location => [@{$node->location}[0,1]],
+    );
 
+    # Check all the child nodes
     if ($node->isa('PPI::Node')) {
         $hash{children} = [map {convert_to_hash($_)} $node->children()];
-    } else {
-        $hash{content} = $node->content() if $node->can('content');
+    } elsif ($node->can('content')) {
+        $hash{content} = $node->content();
     }
+
     return \%hash;
 }
 
+# Convert the document into a hash structure and print it out in JSON format
 my $hash_document = convert_to_hash($document);
+print encode_json($hash_document);
 
-# Convert the $dump string to JSON
-my $json = JSON::XS->new->utf8->canonical->pretty->encode($hash_document);
-
-print $json;
+1;
