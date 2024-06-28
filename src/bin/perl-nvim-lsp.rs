@@ -5,6 +5,7 @@ use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
 
 pub mod call_parse_perl;
+pub mod json_structures;
 pub mod snippets;
 
 #[derive(Debug)]
@@ -101,10 +102,14 @@ impl LanguageServer for Backend {
             return;
         }
 
-        let json_document: serde_json::Value =
-            serde_json::from_str(parsed_document.as_ref().unwrap()).unwrap();
         self.client
-            .log_message(MessageType::ERROR, &json_document)
+            .log_message(MessageType::ERROR, format!("{:#?}", parsed_document))
+            .await;
+
+        let json_document = json_structures::parse_json(&parsed_document.unwrap());
+
+        self.client
+            .log_message(MessageType::ERROR, format!("{:#?}", json_document))
             .await;
     }
 
