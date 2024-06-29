@@ -9,44 +9,74 @@ struct Location {
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 enum PerlNode {
+    #[serde(rename = "PPI::Statement")]
+    Statement {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Break")]
+    StatementBreak {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Compound")]
+    StatementCompound {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Data")]
+    StatementData {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::End")]
+    StatementEnd {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Expression")]
+    StatementExpression {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Given")]
+    StatementGiven {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
     #[serde(rename = "PPI::Statement::Include")]
     StatementInclude {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
-    #[serde(rename = "PPI::Token::Word")]
-    TokenWord {
+    #[serde(rename = "PPI::Statement::Include::Perl6")]
+    StatementIncludePerlSix {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
-    #[serde(rename = "PPI::Token::Structure")]
-    TokenStructure {
+    #[serde(rename = "PPI::Statement::Null")]
+    StatementNull {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
-    #[serde(rename = "PPI::Token::QuoteLike::Words")]
-    TokenQuoteLikeWord {
+    #[serde(rename = "PPI::Statement::Package")]
+    StatementPackage {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
-    #[serde(rename = "PPI::Statement::Variable")]
-    StatementVariable {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Token::Symbol")]
-    TokenSymbol {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Token::Operator")]
-    TokenOperator {
+    #[serde(rename = "PPI::Statement::Scheduled")]
+    StatementScheduled {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
@@ -65,6 +95,12 @@ enum PerlNode {
     },
     #[serde(rename = "PPI::Statement::UnmatchedBrace")]
     StatementUnmatchedBrace {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
+    #[serde(rename = "PPI::Statement::Variable")]
+    StatementVariable {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
@@ -249,6 +285,12 @@ enum PerlNode {
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
+    #[serde(rename = "PPI::Token::Operator")]
+    TokenOperator {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
     #[serde(rename = "PPI::Token::Pod")]
     TokenPod {
         content: Option<String>,
@@ -321,6 +363,12 @@ enum PerlNode {
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
+    #[serde(rename = "PPI::Token::QuoteLike::Words")]
+    TokenQuoteLikeWord {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
     #[serde(rename = "PPI::Token::Regexp")]
     TokenRegexp {
         content: Option<String>,
@@ -351,6 +399,12 @@ enum PerlNode {
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
+    #[serde(rename = "PPI::Token::Symbol")]
+    TokenSymbol {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
     #[serde(rename = "PPI::Token::Unknown")]
     TokenUnknown {
         content: Option<String>,
@@ -363,68 +417,8 @@ enum PerlNode {
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
-    #[serde(rename = "PPI::Statement")]
-    Statement {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Break")]
-    StatementBreak {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Compound")]
-    StatementCompound {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Data")]
-    StatementData {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::End")]
-    StatementEnd {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Expression")]
-    StatementExpression {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Given")]
-    StatementGiven {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Include::Perl6")]
-    StatementIncludePerlSix {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Null")]
-    StatementNull {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Package")]
-    StatementPackage {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
-    #[serde(rename = "PPI::Statement::Scheduled")]
-    StatementScheduled {
+    #[serde(rename = "PPI::Token::Word")]
+    TokenWord {
         content: Option<String>,
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
