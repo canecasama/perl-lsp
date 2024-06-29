@@ -400,6 +400,12 @@ enum PerlNode {
         location: Option<Location>,
         children: Option<Vec<PerlNode>>,
     },
+    #[serde(rename = "PPI::Token::Structure")]
+    TokenStructure {
+        content: Option<String>,
+        location: Option<Location>,
+        children: Option<Vec<PerlNode>>,
+    },
     #[serde(rename = "PPI::Token::Symbol")]
     TokenSymbol {
         content: Option<String>,
