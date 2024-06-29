@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_json::Error;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Location {
@@ -432,6 +433,6 @@ pub struct PerlDocument {
     children: Option<Vec<PerlNode>>,
 }
 
-pub fn parse_json(input: &str) -> Result<PerlDocument, serde_json::Error> {
+pub fn parse_json(input: &str) -> Result<PerlDocument, Error> {
     serde_json::from_str(input)
 }
