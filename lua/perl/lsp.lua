@@ -21,6 +21,18 @@ M.setup = function()
 		pattern = { "perl" },
 		callback = M.start,
 	})
+
+	vim.api.nvim_clear_autocmd("LspAttach", {
+		group = group,
+		callback = function(args)
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			if not client or client.name ~= "perl-nvim-lsp" then
+				return
+			end
+
+			require("perl.lsp").on_attach(client)
+		end,
+	})
 end
 
 return M
