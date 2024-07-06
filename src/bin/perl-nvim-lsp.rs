@@ -1,4 +1,8 @@
+use core::panic;
+
+use crate::json_structures::PerlDocument;
 use crate::snippets::get_snippets;
+use dashmap::DashMap;
 use serde_json::Value;
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
@@ -11,6 +15,8 @@ pub mod snippets;
 #[derive(Debug)]
 struct Backend {
     client: Client,
+    documents_map: DashMap<Url, String>,
+    ppi_map: DashMap<Url, PerlDocument>,
 }
 
 #[tower_lsp::async_trait]
@@ -90,7 +96,10 @@ impl LanguageServer for Backend {
 
     async fn did_open(&self, params: DidOpenTextDocumentParams) {
         self.client
-            .log_message(MessageType::ERROR, "file opened!")
+            .log_message(
+                MessageType::ERROR,
+                format!("file opened: {:?}", params.text_document.uri.to_string()),
+            )
             .await;
 
         let parsed_document = call_parse_perl::run_parse_perl(params.text_document.text);
@@ -102,20 +111,31 @@ impl LanguageServer for Backend {
             return;
         }
 
-        self.client
-            .log_message(MessageType::ERROR, format!("{:#?}", parsed_document))
-            .await;
-
         let json_document = json_structures::parse_json(&parsed_document.unwrap());
-
-        self.client
-            .log_message(MessageType::ERROR, format!("{:#?}", json_document))
-            .await;
+        if json_document.is_err() {
+            self.client
+                .log_message(MessageType::ERROR, json_document.as_ref().unwrap_err())
+                .await;
+            return;
+        }
+        self.ppi_map
+            .insert(params.text_document.uri, json_document.unwrap());
     }
 
-    async fn did_change(&self, _: DidChangeTextDocumentParams) {
+    async fn did_change(&self, params: DidChangeTextDocumentParams) {
+        let changes = params.content_changes;
+        if changes.len() != 1 {
+            panic!("You can only change one document at a time! {:?}", changes);
+        }
+        let change_text = changes[0].text.clone();
+        self.documents_map
+            .insert(params.text_document.uri, change_text);
+
         self.client
-            .log_message(MessageType::INFO, "file changed!")
+            .log_message(
+                MessageType::ERROR,
+                format!("file changed! {:?}", self.documents_map),
+            )
             .await;
     }
 
@@ -147,6 +167,10 @@ async fn main() {
     // #[cfg(feature = "runtime-agnostic")]
     // let (stdin, stdout) = (stdin.compat(), stdout.compat_write());
 
-    let (service, socket) = LspService::new(|client| Backend { client });
+    let (service, socket) = LspService::new(|client| Backend {
+        client,
+        documents_map: DashMap::default(),
+        ppi_map: DashMap::default(),
+    });
     Server::new(stdin, stdout, socket).serve(service).await;
 }
