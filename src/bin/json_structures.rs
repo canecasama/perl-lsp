@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Error;
+use std::mem::discriminant;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Location {
@@ -437,6 +438,38 @@ pub struct PerlDocument {
     content: Option<String>,
     location: Option<Location>,
     children: Option<Vec<PerlNode>>,
+}
+
+trait FindNode {
+    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode>;
+}
+
+impl FindNode for PerlDocument {
+    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode> {
+        if let Some(children) = &self.children {
+            for child in children {
+                if let Some(node) = child.find_node_by_type(node_type) {
+                    return Some(node);
+                }
+            }
+        }
+        None
+    }
+}
+
+impl FindNode for PerlNode {
+    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode> {
+        if discriminant(self) == discriminant(node_type) {
+            return Some(self);
+        } else if let Some(children) = &self.children {
+            for child in children {
+                if let Some(node) = child.find_node_by_type(node_type) {
+                    return Some(node);
+                }
+            }
+        }
+        None
+    }
 }
 
 pub fn parse_json(input: &str) -> Result<PerlDocument, Error> {
