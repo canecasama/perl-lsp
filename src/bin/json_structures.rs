@@ -9,428 +9,155 @@ struct Location {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
+struct NodeData {
+    content: Option<String>,
+    location: Option<Location>,
+    children: Option<Vec<PerlNode>>,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(tag = "type")]
 enum PerlNode {
     #[serde(rename = "PPI::Statement")]
-    Statement {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    Statement(NodeData),
     #[serde(rename = "PPI::Statement::Break")]
-    StatementBreak {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementBreak(NodeData),
     #[serde(rename = "PPI::Statement::Compound")]
-    StatementCompound {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementCompound(NodeData),
     #[serde(rename = "PPI::Statement::Data")]
-    StatementData {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementData(NodeData),
     #[serde(rename = "PPI::Statement::End")]
-    StatementEnd {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementEnd(NodeData),
     #[serde(rename = "PPI::Statement::Expression")]
-    StatementExpression {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementExpression(NodeData),
     #[serde(rename = "PPI::Statement::Given")]
-    StatementGiven {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementGiven(NodeData),
     #[serde(rename = "PPI::Statement::Include")]
-    StatementInclude {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementInclude(NodeData),
     #[serde(rename = "PPI::Statement::Include::Perl6")]
-    StatementIncludePerlSix {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementIncludePerlSix(NodeData),
     #[serde(rename = "PPI::Statement::Null")]
-    StatementNull {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementNull(NodeData),
     #[serde(rename = "PPI::Statement::Package")]
-    StatementPackage {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementPackage(NodeData),
     #[serde(rename = "PPI::Statement::Scheduled")]
-    StatementScheduled {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementScheduled(NodeData),
     #[serde(rename = "PPI::Statement::Sub")]
-    StatementSub {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementSub(NodeData),
     #[serde(rename = "PPI::Statement::Unknown")]
-    StatementUnknown {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementUnknown(NodeData),
     #[serde(rename = "PPI::Statement::UnmatchedBrace")]
-    StatementUnmatchedBrace {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementUnmatchedBrace(NodeData),
     #[serde(rename = "PPI::Statement::Variable")]
-    StatementVariable {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementVariable(NodeData),
     #[serde(rename = "PPI::Statement::When")]
-    StatementWhen {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StatementWhen(NodeData),
     #[serde(rename = "PPI::Structure")]
-    Structure {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    Structure(NodeData),
     #[serde(rename = "PPI::Structure::Block")]
-    StructureBlock {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureBlock(NodeData),
     #[serde(rename = "PPI::Structure::Condition")]
-    StructureCondition {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureCondition(NodeData),
     #[serde(rename = "PPI::Structure::Constructor")]
-    StructureConstructor {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureConstructor(NodeData),
     #[serde(rename = "PPI::Structure::For")]
-    StructureFor {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureFor(NodeData),
     #[serde(rename = "PPI::Structure::Given")]
-    StructureGiven {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureGiven(NodeData),
     #[serde(rename = "PPI::Structure::List")]
-    StructureList {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureList(NodeData),
     #[serde(rename = "PPI::Structure::Subscript")]
-    StructureSubscript {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureSubscript(NodeData),
     #[serde(rename = "PPI::Structure::Unknown")]
-    StructureUnknown {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureUnknown(NodeData),
     #[serde(rename = "PPI::Structure::When")]
-    StructureWhen {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    StructureWhen(NodeData),
     #[serde(rename = "PPI::Token")]
-    Token {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    Token(NodeData),
     #[serde(rename = "PPI::Token::ArrayIndex")]
-    TokenArrayIndex {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenArrayIndex(NodeData),
     #[serde(rename = "PPI::Token::Attribute")]
-    TokenAttribute {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenAttribute(NodeData),
     #[serde(rename = "PPI::Token::BOM")]
-    TokenBOM {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenBOM(NodeData),
     #[serde(rename = "PPI::Token::Cast")]
-    TokenCast {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenCast(NodeData),
     #[serde(rename = "PPI::Token::Comment")]
-    TokenComment {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenComment(NodeData),
     #[serde(rename = "PPI::Token::DashedWord")]
-    TokenDashedWord {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenDashedWord(NodeData),
     #[serde(rename = "PPI::Token::Data")]
-    TokenData {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenData(NodeData),
     #[serde(rename = "PPI::Token::End")]
-    TokenEnd {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenEnd(NodeData),
     #[serde(rename = "PPI::Token::HereDoc")]
-    TokenHereDoc {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenHereDoc(NodeData),
     #[serde(rename = "PPI::Token::Label")]
-    TokenLabel {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenLabel(NodeData),
     #[serde(rename = "PPI::Token::Magic")]
-    TokenMagic {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenMagic(NodeData),
     #[serde(rename = "PPI::Token::Number")]
-    TokenNumber {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumber(NodeData),
     #[serde(rename = "PPI::Token::Number::Binary")]
-    TokenNumberBinary {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberBinary(NodeData),
     #[serde(rename = "PPI::Token::Number::Exp")]
-    TokenNumberExp {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberExp(NodeData),
     #[serde(rename = "PPI::Token::Number::Float")]
-    TokenNumberFloat {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberFloat(NodeData),
     #[serde(rename = "PPI::Token::Number::Hex")]
-    TokenNumberHex {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberHex(NodeData),
     #[serde(rename = "PPI::Token::Number::Octal")]
-    TokenNumberOctal {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberOctal(NodeData),
     #[serde(rename = "PPI::Token::Number::Version")]
-    TokenNumberVersion {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenNumberVersion(NodeData),
     #[serde(rename = "PPI::Token::Operator")]
-    TokenOperator {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenOperator(NodeData),
     #[serde(rename = "PPI::Token::Pod")]
-    TokenPod {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenPod(NodeData),
     #[serde(rename = "PPI::Token::Prototype")]
-    TokenPrototype {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenPrototype(NodeData),
     #[serde(rename = "PPI::Token::Quote")]
-    TokenQuote {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuote(NodeData),
     #[serde(rename = "PPI::Token::Quote::Double")]
-    TokenQuoteDouble {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteDouble(NodeData),
     #[serde(rename = "PPI::Token::Quote::Interpolate")]
-    TokenQuoteInterpolate {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteInterpolate(NodeData),
     #[serde(rename = "PPI::Token::Quote::Literal")]
-    TokenQuoteLiteral {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLiteral(NodeData),
     #[serde(rename = "PPI::Token::Quote::Single")]
-    TokenQuoteSingle {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteSingle(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike")]
-    TokenQuoteLike {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLike(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike::Backtick")]
-    TokenQuoteLikeBacktick {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLikeBacktick(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike::Command")]
-    TokenQuoteLikeCommand {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLikeCommand(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike::Readline")]
-    TokenQuoteLikeReadline {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLikeReadline(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike::Regexp")]
-    TokenQuoteLikeRegexp {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLikeRegexp(NodeData),
     #[serde(rename = "PPI::Token::QuoteLike::Words")]
-    TokenQuoteLikeWord {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenQuoteLikeWord(NodeData),
     #[serde(rename = "PPI::Token::Regexp")]
-    TokenRegexp {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenRegexp(NodeData),
     #[serde(rename = "PPI::Token::Regexp::Match")]
-    TokenRegexpMatch {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenRegexpMatch(NodeData),
     #[serde(rename = "PPI::Token::Regexp::Substitute")]
-    TokenRegexpSubstitute {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenRegexpSubstitute(NodeData),
     #[serde(rename = "PPI::Token::Regexp::Transliterate")]
-    TokenRegexpTransliterate {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenRegexpTransliterate(NodeData),
     #[serde(rename = "PPI::Token::Separator")]
-    TokenSeparator {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenSeparator(NodeData),
     #[serde(rename = "PPI::Token::Structure")]
-    TokenStructure {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenStructure(NodeData),
     #[serde(rename = "PPI::Token::Symbol")]
-    TokenSymbol {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenSymbol(NodeData),
     #[serde(rename = "PPI::Token::Unknown")]
-    TokenUnknown {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenUnknown(NodeData),
     #[serde(rename = "PPI::Token::Whitespace")]
-    TokenWhitespace {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenWhitespace(NodeData),
     #[serde(rename = "PPI::Token::Word")]
-    TokenWord {
-        content: Option<String>,
-        location: Option<Location>,
-        children: Option<Vec<PerlNode>>,
-    },
+    TokenWord(NodeData),
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -461,12 +188,12 @@ impl FindNode for PerlNode {
     fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode> {
         if discriminant(self) == discriminant(node_type) {
             return Some(self);
-        } else if let Some(children) = &self.children {
-            for child in children {
-                if let Some(node) = child.find_node_by_type(node_type) {
-                    return Some(node);
-                }
-            }
+            // } else if let Some(children) = &self.children {
+            //     for child in children {
+            //         if let Some(node) = child.find_node_by_type(node_type) {
+            //             return Some(node);
+            //         }
+            //     }
         }
         None
     }
