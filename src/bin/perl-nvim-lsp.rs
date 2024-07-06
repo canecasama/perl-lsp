@@ -166,10 +166,22 @@ impl LanguageServer for Backend {
         self.client
             .log_message(
                 MessageType::ERROR,
-                format!("Go to Definition! {:?}", params),
+                format!("Go to Definition! {:?} {:?}", params, self.ppi_map),
             )
             .await;
-        Ok(None)
+        Ok(Some(GotoDefinitionResponse::Scalar(Location {
+            uri: params.text_document_position_params.text_document.uri,
+            range: Range {
+                start: Position {
+                    line: 0,
+                    character: 0,
+                },
+                end: Position {
+                    line: 0,
+                    character: 0,
+                },
+            },
+        })))
     }
 }
 
