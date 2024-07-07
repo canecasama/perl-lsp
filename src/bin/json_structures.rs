@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use serde_json::Error;
-use std::mem::discriminant;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Location {
@@ -10,195 +9,272 @@ struct Location {
 
 #[derive(Debug, Deserialize, Serialize)]
 struct NodeData {
+    #[serde(rename = "type")]
+    node_type: PerlNode,
     content: Option<String>,
     location: Option<Location>,
     children: Option<Vec<PerlNode>>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-#[serde(tag = "type")]
 enum PerlNode {
     #[serde(rename = "PPI::Statement")]
-    Statement(NodeData),
+    Statement,
     #[serde(rename = "PPI::Statement::Break")]
-    StatementBreak(NodeData),
+    StatementBreak,
     #[serde(rename = "PPI::Statement::Compound")]
-    StatementCompound(NodeData),
+    StatementCompound,
     #[serde(rename = "PPI::Statement::Data")]
-    StatementData(NodeData),
+    StatementData,
     #[serde(rename = "PPI::Statement::End")]
-    StatementEnd(NodeData),
+    StatementEnd,
     #[serde(rename = "PPI::Statement::Expression")]
-    StatementExpression(NodeData),
+    StatementExpression,
     #[serde(rename = "PPI::Statement::Given")]
-    StatementGiven(NodeData),
+    StatementGiven,
     #[serde(rename = "PPI::Statement::Include")]
-    StatementInclude(NodeData),
+    StatementInclude,
     #[serde(rename = "PPI::Statement::Include::Perl6")]
-    StatementIncludePerlSix(NodeData),
+    StatementIncludePerlSix,
     #[serde(rename = "PPI::Statement::Null")]
-    StatementNull(NodeData),
+    StatementNull,
     #[serde(rename = "PPI::Statement::Package")]
-    StatementPackage(NodeData),
+    StatementPackage,
     #[serde(rename = "PPI::Statement::Scheduled")]
-    StatementScheduled(NodeData),
+    StatementScheduled,
     #[serde(rename = "PPI::Statement::Sub")]
-    StatementSub(NodeData),
+    StatementSub,
     #[serde(rename = "PPI::Statement::Unknown")]
-    StatementUnknown(NodeData),
+    StatementUnknown,
     #[serde(rename = "PPI::Statement::UnmatchedBrace")]
-    StatementUnmatchedBrace(NodeData),
+    StatementUnmatchedBrace,
     #[serde(rename = "PPI::Statement::Variable")]
-    StatementVariable(NodeData),
+    StatementVariable,
     #[serde(rename = "PPI::Statement::When")]
-    StatementWhen(NodeData),
+    StatementWhen,
     #[serde(rename = "PPI::Structure")]
-    Structure(NodeData),
+    Structure,
     #[serde(rename = "PPI::Structure::Block")]
-    StructureBlock(NodeData),
+    StructureBlock,
     #[serde(rename = "PPI::Structure::Condition")]
-    StructureCondition(NodeData),
+    StructureCondition,
     #[serde(rename = "PPI::Structure::Constructor")]
-    StructureConstructor(NodeData),
+    StructureConstructor,
     #[serde(rename = "PPI::Structure::For")]
-    StructureFor(NodeData),
+    StructureFor,
     #[serde(rename = "PPI::Structure::Given")]
-    StructureGiven(NodeData),
+    StructureGiven,
     #[serde(rename = "PPI::Structure::List")]
-    StructureList(NodeData),
+    StructureList,
     #[serde(rename = "PPI::Structure::Subscript")]
-    StructureSubscript(NodeData),
+    StructureSubscript,
     #[serde(rename = "PPI::Structure::Unknown")]
-    StructureUnknown(NodeData),
+    StructureUnknown,
     #[serde(rename = "PPI::Structure::When")]
-    StructureWhen(NodeData),
+    StructureWhen,
     #[serde(rename = "PPI::Token")]
-    Token(NodeData),
+    Token,
     #[serde(rename = "PPI::Token::ArrayIndex")]
-    TokenArrayIndex(NodeData),
+    TokenArrayIndex,
     #[serde(rename = "PPI::Token::Attribute")]
-    TokenAttribute(NodeData),
+    TokenAttribute,
     #[serde(rename = "PPI::Token::BOM")]
-    TokenBOM(NodeData),
+    TokenBOM,
     #[serde(rename = "PPI::Token::Cast")]
-    TokenCast(NodeData),
+    TokenCast,
     #[serde(rename = "PPI::Token::Comment")]
-    TokenComment(NodeData),
+    TokenComment,
     #[serde(rename = "PPI::Token::DashedWord")]
-    TokenDashedWord(NodeData),
+    TokenDashedWord,
     #[serde(rename = "PPI::Token::Data")]
-    TokenData(NodeData),
+    TokenData,
     #[serde(rename = "PPI::Token::End")]
-    TokenEnd(NodeData),
+    TokenEnd,
     #[serde(rename = "PPI::Token::HereDoc")]
-    TokenHereDoc(NodeData),
+    TokenHereDoc,
     #[serde(rename = "PPI::Token::Label")]
-    TokenLabel(NodeData),
+    TokenLabel,
     #[serde(rename = "PPI::Token::Magic")]
-    TokenMagic(NodeData),
+    TokenMagic,
     #[serde(rename = "PPI::Token::Number")]
-    TokenNumber(NodeData),
+    TokenNumber,
     #[serde(rename = "PPI::Token::Number::Binary")]
-    TokenNumberBinary(NodeData),
+    TokenNumberBinary,
     #[serde(rename = "PPI::Token::Number::Exp")]
-    TokenNumberExp(NodeData),
+    TokenNumberExp,
     #[serde(rename = "PPI::Token::Number::Float")]
-    TokenNumberFloat(NodeData),
+    TokenNumberFloat,
     #[serde(rename = "PPI::Token::Number::Hex")]
-    TokenNumberHex(NodeData),
+    TokenNumberHex,
     #[serde(rename = "PPI::Token::Number::Octal")]
-    TokenNumberOctal(NodeData),
+    TokenNumberOctal,
     #[serde(rename = "PPI::Token::Number::Version")]
-    TokenNumberVersion(NodeData),
+    TokenNumberVersion,
     #[serde(rename = "PPI::Token::Operator")]
-    TokenOperator(NodeData),
+    TokenOperator,
     #[serde(rename = "PPI::Token::Pod")]
-    TokenPod(NodeData),
+    TokenPod,
     #[serde(rename = "PPI::Token::Prototype")]
-    TokenPrototype(NodeData),
+    TokenPrototype,
     #[serde(rename = "PPI::Token::Quote")]
-    TokenQuote(NodeData),
+    TokenQuote,
     #[serde(rename = "PPI::Token::Quote::Double")]
-    TokenQuoteDouble(NodeData),
+    TokenQuoteDouble,
     #[serde(rename = "PPI::Token::Quote::Interpolate")]
-    TokenQuoteInterpolate(NodeData),
+    TokenQuoteInterpolate,
     #[serde(rename = "PPI::Token::Quote::Literal")]
-    TokenQuoteLiteral(NodeData),
+    TokenQuoteLiteral,
     #[serde(rename = "PPI::Token::Quote::Single")]
-    TokenQuoteSingle(NodeData),
+    TokenQuoteSingle,
     #[serde(rename = "PPI::Token::QuoteLike")]
-    TokenQuoteLike(NodeData),
+    TokenQuoteLike,
     #[serde(rename = "PPI::Token::QuoteLike::Backtick")]
-    TokenQuoteLikeBacktick(NodeData),
+    TokenQuoteLikeBacktick,
     #[serde(rename = "PPI::Token::QuoteLike::Command")]
-    TokenQuoteLikeCommand(NodeData),
+    TokenQuoteLikeCommand,
     #[serde(rename = "PPI::Token::QuoteLike::Readline")]
-    TokenQuoteLikeReadline(NodeData),
+    TokenQuoteLikeReadline,
     #[serde(rename = "PPI::Token::QuoteLike::Regexp")]
-    TokenQuoteLikeRegexp(NodeData),
+    TokenQuoteLikeRegexp,
     #[serde(rename = "PPI::Token::QuoteLike::Words")]
-    TokenQuoteLikeWord(NodeData),
+    TokenQuoteLikeWord,
     #[serde(rename = "PPI::Token::Regexp")]
-    TokenRegexp(NodeData),
+    TokenRegexp,
     #[serde(rename = "PPI::Token::Regexp::Match")]
-    TokenRegexpMatch(NodeData),
+    TokenRegexpMatch,
     #[serde(rename = "PPI::Token::Regexp::Substitute")]
-    TokenRegexpSubstitute(NodeData),
+    TokenRegexpSubstitute,
     #[serde(rename = "PPI::Token::Regexp::Transliterate")]
-    TokenRegexpTransliterate(NodeData),
+    TokenRegexpTransliterate,
     #[serde(rename = "PPI::Token::Separator")]
-    TokenSeparator(NodeData),
+    TokenSeparator,
     #[serde(rename = "PPI::Token::Structure")]
-    TokenStructure(NodeData),
+    TokenStructure,
     #[serde(rename = "PPI::Token::Symbol")]
-    TokenSymbol(NodeData),
+    TokenSymbol,
     #[serde(rename = "PPI::Token::Unknown")]
-    TokenUnknown(NodeData),
+    TokenUnknown,
     #[serde(rename = "PPI::Token::Whitespace")]
-    TokenWhitespace(NodeData),
+    TokenWhitespace,
     #[serde(rename = "PPI::Token::Word")]
-    TokenWord(NodeData),
+    TokenWord,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct PerlDocument {
-    content: Option<String>,
-    location: Option<Location>,
-    children: Option<Vec<PerlNode>>,
+pub struct PerlDocument(NodeData);
+
+trait Getter {
+    fn get_content(&self) -> Option<String>;
+    fn search_content(&self, search_str: &str) -> Vec<&NodeData>;
+    fn search_by_type_and_content(&self, node_type: &PerlNode, search_str: &str) -> Vec<&NodeData>;
 }
 
-trait FindNode {
-    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode>;
-}
+impl Getter for NodeData {
+    fn get_content(&self) -> Option<String> {
+        self.content.clone()
+    }
 
-impl FindNode for PerlDocument {
-    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode> {
-        if let Some(children) = &self.children {
+    fn search_content(&self, search_str: &str) -> Vec<&NodeData> {
+        let mut results = Vec::new();
+
+        if let Some(ref content) = self.content {
+            if content == search_str {
+                results.push(self);
+            }
+        }
+
+        if let Some(ref children) = self.children {
             for child in children {
-                if let Some(node) = child.find_node_by_type(node_type) {
-                    return Some(node);
+                results.extend(child.search_content(search_str));
+            }
+        }
+
+        results
+    }
+
+    fn search_by_type_and_content(&self, node_type: &PerlNode, search_str: &str) -> Vec<&NodeData> {
+        let mut results = Vec::new();
+
+        if self.node_type == *node_type {
+            if let Some(ref content) = self.content {
+                if content == search_str {
+                    results.push(self);
                 }
             }
         }
-        None
-    }
-}
 
-impl FindNode for PerlNode {
-    fn find_node_by_type(&self, node_type: &PerlNode) -> Option<&PerlNode> {
-        if discriminant(self) == discriminant(node_type) {
-            return Some(self);
-            // } else if let Some(children) = &self.children {
-            //     for child in children {
-            //         if let Some(node) = child.find_node_by_type(node_type) {
-            //             return Some(node);
-            //         }
-            //     }
+        if let Some(ref children) = self.children {
+            for child in children {
+                results.extend(child.search_by_type_and_content(&node_type, search_str));
+            }
         }
-        None
+
+        results
     }
 }
 
 pub fn parse_json(input: &str) -> Result<PerlDocument, Error> {
     serde_json::from_str(input)
 }
+
+// fn main() {
+//     let json = r#"{
+//         "children": [
+//             {
+//                 "location": {"line": 1, "column": 1},
+//                 "type": "PPI::Statement::Variable",
+//                 "children": [
+//                     {"content": "my", "location": {"line": 1, "column": 1}, "type": "PPI::Token::Word"},
+//                     {"content": "=", "type": "PPI::Token::Operator", "location": {"line": 1, "column": 5}},
+//                     {"location": {"line": 1, "column": 7}, "type": "PPI::Token::Number", "content": "1"},
+//                     {"location": {"line": 1, "column": 8}, "type": "PPI::Token::Structure", "content": ";"}
+//                 ]
+//             },
+//             {
+//                 "location": {"line": 2, "column": 1},
+//                 "type": "PPI::Statement::Variable",
+//                 "children": [
+//                     {"content": "my", "location": {"line": 2, "column": 1}, "type": "PPI::Token::Word"},
+//                     {"content": "=", "type": "PPI::Token::Operator", "location": {"line": 2, "column": 5}},
+//                     {"location": {"line": 2, "column": 7}, "type": "PPI::Token::Number", "content": "2"},
+//                     {"location": {"line": 2, "column": 8}, "type": "PPI::Token::Structure", "content": ";"}
+//                 ]
+//             }
+//         ],
+//         "type": "PPI::Document",
+//         "location": {"line": 1, "column": 1}
+//     }"#;
+//
+//     let tree: PerlDocument = serde_json::from_str(json).unwrap();
+//
+//     println!("Full Tree: {:?}", tree);
+//
+//     println!("Node: {:?}", tree.0.node);
+//
+//     // Getting content of the root node (which is None in this case)
+//     println!("Content: {:?}", tree.0.get_content());
+//
+//     // Searching for content "my"
+//     let results = tree.0.search_content("my");
+//     for node in results {
+//         println!("Content my: {:?}", node);
+//     }
+//
+//     // Searching for content "1"
+//     let results = tree.0.search_content("1");
+//     for node in results {
+//         println!("Content 1: {:?}", node);
+//     }
+//
+//     // Searching for nodes of type PPI::Token::Word with content "my"
+//     let results = tree.0.search_by_type_and_content(&PerlNode::TokenWord, "my");
+//     for node in results {
+//         println!("TokenWorld my: {:?}", node);
+//     }
+//
+//     // Searching for nodes of type PPI::Token::Number with content "1"
+//     let results = tree.0.search_by_type_and_content(&PerlNode::TokenNumber, "1");
+//     for node in results {
+//         println!("TokenNumber 1: {:?}", node);
+//     }
+// }
