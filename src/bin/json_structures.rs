@@ -16,8 +16,10 @@ struct NodeData {
     children: Option<Vec<PerlNode>>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, PartialEq)]
 enum PerlNode {
+    #[serde(rename = "PPI::Document")]
+    Document,
     #[serde(rename = "PPI::Statement")]
     Statement,
     #[serde(rename = "PPI::Statement::Break")]
@@ -163,17 +165,12 @@ enum PerlNode {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct PerlDocument(NodeData);
 
-trait Getter {
-    fn get_content(&self) -> Option<String>;
+trait Search {
     fn search_content(&self, search_str: &str) -> Vec<&NodeData>;
     fn search_by_type_and_content(&self, node_type: &PerlNode, search_str: &str) -> Vec<&NodeData>;
 }
 
-impl Getter for NodeData {
-    fn get_content(&self) -> Option<String> {
-        self.content.clone()
-    }
-
+impl Search for NodeData {
     fn search_content(&self, search_str: &str) -> Vec<&NodeData> {
         let mut results = Vec::new();
 
