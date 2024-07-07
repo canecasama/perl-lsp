@@ -192,7 +192,7 @@ impl Search for NodeData {
     fn search_by_type_and_content(&self, node_type: &PerlNode, search_str: &str) -> Vec<&NodeData> {
         let mut results = Vec::new();
 
-        if self.node_type == *node_type {
+        if &self.node_type == node_type {
             if let Some(ref content) = self.content {
                 if content == search_str {
                     results.push(self);
@@ -202,7 +202,7 @@ impl Search for NodeData {
 
         if let Some(ref children) = self.children {
             for child in children {
-                results.extend(child.search_by_type_and_content(&node_type, search_str));
+                results.extend(child.search_by_type_and_content(node_type, search_str));
             }
         }
 
